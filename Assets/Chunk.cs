@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Assets;
 using Assets.Blocks;
+using Assets.Rendering;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]

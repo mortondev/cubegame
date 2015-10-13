@@ -10,8 +10,12 @@ namespace Assets
     {
         public void Start()
         {
-            var chunkObject = new GameObject("Chunk");
-            chunkObject.AddComponent<Chunk>();
+            for (var i = 0; i < 10; i++)
+            {
+                var chunkObject = new GameObject("Chunk");
+                chunkObject.transform.position = new Vector3(16 * i, 0, 0);
+                chunkObject.AddComponent<Chunk>();
+            }
         }
 
         public void Update()
