@@ -11,11 +11,16 @@ namespace Assets
         public readonly int Y;
         public readonly int Z;
 
-        public WorldPos(int x, int y, int z)
+        private WorldPos(int x, int y, int z)
         {
             X = x;
             Y = y;
             Z = z;
+        }
+
+        public static WorldPos FromCoordinates(int x, int y, int z)
+        {
+            return new WorldPos(x, y, z);
         }
 
         public override bool Equals(object obj)
