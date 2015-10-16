@@ -10,17 +10,17 @@ using Assets.Rendering;
 [RequireComponent(typeof(MeshCollider))]
 public class Chunk : MonoBehaviour
 {
-    private Block[ , , ] _blocks;
     public static int ChunkSize = 16;
 
-    MeshFilter filter;
-    MeshCollider coll;
+    private Block[ , , ] _blocks;
+    private MeshFilter _meshFilter;
+    private MeshCollider _meshCollider;
 
     // Use this for initialization
     void Start()
     {
-        filter = gameObject.GetComponent<MeshFilter>();
-        coll = gameObject.GetComponent<MeshCollider>();
+        _meshFilter = gameObject.GetComponent<MeshFilter>();
+        _meshCollider = gameObject.GetComponent<MeshCollider>();
 
         _blocks = new Block[ChunkSize, ChunkSize, ChunkSize];
 
@@ -67,8 +67,8 @@ public class Chunk : MonoBehaviour
     // Sends the calculated mesh information to the mesh and collision components
     void RenderMesh(MeshData meshData)
     {
-        filter.mesh.Clear();
-        filter.mesh.vertices = meshData.vertices.ToArray();
-        filter.mesh.triangles = meshData.triangles.ToArray();
+        _meshFilter.mesh.Clear();
+        _meshFilter.mesh.vertices = meshData.vertices.ToArray();
+        _meshFilter.mesh.triangles = meshData.triangles.ToArray();
     }
 }
