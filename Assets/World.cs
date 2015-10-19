@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using Assets.Blocks;
 using Assets.TerrainGen;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Assets
 {
     public class World : MonoBehaviour
     {
-        IDictionary<WorldPos, Chunk> _chunks = new Dictionary<WorldPos, Chunk>(); 
+        readonly IDictionary<WorldPos, Chunk> _chunks = new Dictionary<WorldPos, Chunk>(); 
 
         public void Start()
         {
@@ -26,6 +27,17 @@ namespace Assets
         public void Update()
         {
 
+        }
+
+        public Chunk GetChunk(WorldPos worldPos)
+        {
+            return _chunks[worldPos];
+        }
+
+        public Block GetBlock(WorldPos worldPos)
+        {
+            var chunk = GetChunk(worldPos);
+            return chunk.GetBlock(worldPos.X - Chunk.ChunkSize, worldPos.Y - Chunk.ChunkSize, worldPos.Z - Chunk.ChunkSize);
         }
 
         public void CreateChunk(int x, int y, int z)
