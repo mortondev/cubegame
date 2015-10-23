@@ -43,7 +43,7 @@ namespace Assets
         public void CreateChunk(int x, int y, int z)
         {
             var worldPos = new WorldPos(x, y, z);
-            var chunkObject = new GameObject("Chunk");
+            var chunkObject = new GameObject(string.Format("Chunk[{0}, {1}, {2}]", x, y, z));
             chunkObject.transform.position = new Vector3(x, y, z);
             chunkObject.AddComponent<Chunk>();
 

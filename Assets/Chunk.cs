@@ -68,7 +68,20 @@ namespace Assets
             _meshFilter.mesh.triangles = meshData.triangles.ToArray();
             _meshFilter.mesh.RecalculateNormals();
 
-            _meshRenderer.material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), 1);
+            var vertices = _meshFilter.mesh.vertices;
+            var colors = new Color32[vertices.Length];
+
+            var i = 0;
+            while (i < vertices.Length)
+            {
+                colors[i] = Color.Lerp(Color.red, Color.green, vertices[i].y);
+                i++;
+            }
+
+            _meshFilter.mesh.colors32 = colors;// new[] { Color.yellow, Color.red, Color.magenta, };
+            
+            //_meshRenderer.material.color = new Color(0f, 0.5f, 0f);
+            //_meshRenderer.material.shader = Shader.Find("CubeShader");
         }
     }
 }
