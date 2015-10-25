@@ -7,6 +7,7 @@ namespace Assets.Rendering
     {
         public IList<Vector3> vertices = new List<Vector3>();
         public IList<int> triangles = new List<int>();
+        public IList<Color32> colors = new List<Color32>(); 
 
         public void AddQuadTriangles()
         {

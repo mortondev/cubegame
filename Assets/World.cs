@@ -31,11 +31,24 @@ namespace Assets
 
         public Chunk GetChunk(WorldPos worldPos)
         {
-            return _chunks[worldPos];
+            try
+            {
+              return _chunks[worldPos];
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public Block GetBlock(WorldPos worldPos)
         {
+            if(worldPos.X < 0 || worldPos.Y < 0 || worldPos.Z < 0)
+                return new BlockAir();
+
+            if (worldPos.X > 15 || worldPos.Y > 15 || worldPos.Z > 15)
+                return new BlockAir();
+            
             var chunk = GetChunk(worldPos);
             return chunk.GetBlock(worldPos.X - Chunk.ChunkSize, worldPos.Y - Chunk.ChunkSize, worldPos.Z - Chunk.ChunkSize);
         }
@@ -49,6 +62,7 @@ namespace Assets
 
             var chunk = chunkObject.GetComponent<Chunk>();
             chunk.WorldPos = worldPos;
+            chunk.World = this;
 
             var terrainGenerator = new TerrainGenerator();
             chunk = terrainGenerator.GenerateChunk(chunk);
