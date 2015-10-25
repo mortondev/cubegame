@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using Assets.Blocks;
+using Assets.Rendering;
 using Assets.TerrainGen;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Assets
 {
     public class World : MonoBehaviour
     {
-        readonly IDictionary<WorldPos, Chunk> _chunks = new Dictionary<WorldPos, Chunk>(); 
+        readonly IDictionary<WorldPos, Chunk> _chunks = new Dictionary<WorldPos, Chunk>();
 
         public void Start()
         {
@@ -22,6 +23,9 @@ namespace Assets
                     CreateChunk(x * 16, 0, z * 16);
                 }
             }
+
+            //ChunkMeshGenerator.LightningFloodArea(this, new WorldPos(32, 0, 32), 16);
+
         }
 
         public void Update()
@@ -31,26 +35,24 @@ namespace Assets
 
         public Chunk GetChunk(WorldPos worldPos)
         {
-            try
-            {
-              return _chunks[worldPos];
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return _chunks[worldPos];
         }
 
         public Block GetBlock(WorldPos worldPos)
         {
-            if(worldPos.X < 0 || worldPos.Y < 0 || worldPos.Z < 0)
+            if (worldPos.X < 0 || worldPos.Y < 0 || worldPos.Z < 0)
                 return new BlockAir();
 
-            if (worldPos.X > 15 || worldPos.Y > 15 || worldPos.Z > 15)
+            if (worldPos.X > 16*16 || worldPos.Y > 16 * 16 || worldPos.Z > 16 * 16)
                 return new BlockAir();
-            
+
             var chunk = GetChunk(worldPos);
             return chunk.GetBlock(worldPos.X - Chunk.ChunkSize, worldPos.Y - Chunk.ChunkSize, worldPos.Z - Chunk.ChunkSize);
+        }
+
+        public Block this[int x, int y, int z]
+        {
+            get { return GetBlock(new WorldPos(x, y, z)); }
         }
 
         public void CreateChunk(int x, int y, int z)
@@ -66,8 +68,9 @@ namespace Assets
 
             var terrainGenerator = new TerrainGenerator();
             chunk = terrainGenerator.GenerateChunk(chunk);
-
             _chunks.Add(worldPos, chunk);
+
+
         }
     }
 }

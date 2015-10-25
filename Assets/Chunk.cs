@@ -45,6 +45,11 @@ namespace Assets
             _update = false;
         }
 
+        public void SetDirty()
+        {
+            _update = true;
+        }
+
         private static bool InRange(int index)
         {
             return index >= 0 && index < ChunkSize;
@@ -53,7 +58,7 @@ namespace Assets
         public Block GetBlock(int x, int y, int z)
         {
             if (!InRange(x) || !InRange(y) || !InRange(z))
-                return World.GetBlock(new WorldPos(x, y, z));
+                return World.GetBlock(new WorldPos(WorldPos.X + x, WorldPos.X + y, WorldPos.X + z));
 
             return _blocks[x, y, z];
         }
@@ -65,7 +70,8 @@ namespace Assets
 
         public void SetBlock<T>(int x, int y, int z) where T : Block, new()
         {
-            _blocks[x, y, z] = new T();
+            _blocks[x, y, z] = new T {_chunk = this};
+
             _update = true;
         }
     }

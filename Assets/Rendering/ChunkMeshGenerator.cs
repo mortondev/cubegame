@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Assets.Blocks;
 using UnityEngine;
 
@@ -6,6 +8,9 @@ namespace Assets.Rendering
 {
     public class ChunkMeshGenerator
     {
+        private static List<Vector3> _lightningBlocks = new List<Vector3>();
+        public static List<Vector3> LightningBlocks { get { return _lightningBlocks; } }
+
         public MeshData CreateChunkMesh(Chunk chunk)
         {
             var meshData = new MeshData();
@@ -78,13 +83,7 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
       
             // Get neighbours
-            Block block = chunk[x, y, z];
             Block top = chunk[x, y + 1, z];
-            Block bottom = chunk[x, y - 1, z];
-            Block front = chunk[x, y, z + 1];
-            Block back = chunk[x, y, z - 1];
-            Block left = chunk[x + 1, y, z];
-            Block right = chunk[x - 1, y, z];
 
             Block frontTop = chunk[x, y + 1, z + 1];
             Block backTop = chunk[x, y + 1, z - 1];
@@ -98,10 +97,11 @@ namespace Assets.Rendering
             Block backTopLeft = chunk[x + 1, y + 1, z - 1];
             Block backTopRight = chunk[x - 1, y + 1, z - 1];
 
-            int c1 = (top.Light + backTop.Light + backTopRight.Light + rightTop.Light) / 4;  // Bottom Left
-            int c2 = (top.Light + frontTop.Light + frontTopRight.Light + rightTop.Light) / 4;// Bottom Right 
-            int c3 = (top.Light + frontTop.Light + frontTopLeft.Light + leftTop.Light) / 4;  // Top Right
-            int c4 = (top.Light + backTop.Light + backTopLeft.Light + leftTop.Light) / 4;    // Top Left
+            int c1 = top.Light, c2 = top.Light, c3 = top.Light, c4 = top.Light;
+            //int c1 = (top.Light + backTop.Light + backTopRight.Light + rightTop.Light) / 4;  // Bottom Left
+            //int c2 = (top.Light + frontTop.Light + frontTopRight.Light + rightTop.Light) / 4;// Bottom Right 
+            //int c3 = (top.Light + frontTop.Light + frontTopLeft.Light + leftTop.Light) / 4;  // Top Right
+            //int c4 = (top.Light + backTop.Light + backTopLeft.Light + leftTop.Light) / 4;    // Top Left
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -126,13 +126,7 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
 
             // Get neighbours
-            Block block = chunk[x, y, z];
-            Block top = chunk[x, y + 1, z];
             Block bottom = chunk[x, y - 1, z];
-            Block front = chunk[x, y, z + 1];
-            Block back = chunk[x, y, z - 1];
-            Block left = chunk[x + 1, y, z];
-            Block right = chunk[x - 1, y, z];
 
             Block frontBottom = chunk[x, y - 1, z + 1];
             Block backBottom = chunk[x, y - 1, z - 1];
@@ -146,10 +140,11 @@ namespace Assets.Rendering
             Block backBottomLeft = chunk[x + 1, y - 1, z - 1];
             Block backBottomRight = chunk[x - 1, y - 1, z - 1];
 
-            int c1 = (bottom.Light + backBottom.Light + backBottomRight.Light + rightBottom.Light) / 4;   // Bottom Left
-            int c4 = (bottom.Light + frontBottom.Light + frontBottomRight.Light + rightBottom.Light) / 4; // Bottom Right 
-            int c3 = (bottom.Light + frontBottom.Light + frontBottomLeft.Light + leftBottom.Light) / 4;   // Top Right
-            int c2 = (bottom.Light + backBottom.Light + backBottomLeft.Light + leftBottom.Light) / 4;     // Top Left
+            int c1 = bottom.Light, c2 = bottom.Light, c3 = bottom.Light, c4 = bottom.Light;
+            //int c1 = (bottom.Light + backBottom.Light + backBottomRight.Light + rightBottom.Light) / 4;   // Bottom Left
+            //int c4 = (bottom.Light + frontBottom.Light + frontBottomRight.Light + rightBottom.Light) / 4; // Bottom Right 
+            //int c3 = (bottom.Light + frontBottom.Light + frontBottomLeft.Light + leftBottom.Light) / 4;   // Top Right
+            //int c2 = (bottom.Light + backBottom.Light + backBottomLeft.Light + leftBottom.Light) / 4;     // Top Left
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -174,13 +169,7 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
 
             // Get neighbours
-            Block block = chunk[x, y, z];
-            Block top = chunk[x, y + 1, z];
-            Block bottom = chunk[x, y - 1, z];
             Block front = chunk[x, y, z + 1];
-            Block back = chunk[x, y, z - 1];
-            Block left = chunk[x + 1, y, z];
-            Block right = chunk[x - 1, y, z];
 
             Block frontTop = chunk[x, y + 1, z + 1];
             Block frontBottom = chunk[x, y - 1, z + 1];
@@ -194,10 +183,11 @@ namespace Assets.Rendering
             Block frontBottomLeft = chunk[x + 1, y - 1, z + 1];
             Block frontBottomRight = chunk[x - 1, y - 1, z + 1];
 
-            int c1 = (front.Light + frontBottom.Light + frontBottomRight.Light + frontRight.Light) / 4; // Bottom Left
-            int c2 = (front.Light + frontBottom.Light + frontBottomLeft.Light + frontLeft.Light) / 4;   // Bottom Right
-            int c3 = (front.Light + frontTop.Light + frontTopLeft.Light + frontLeft.Light) / 4;         // Top Right
-            int c4 = (front.Light + frontTop.Light + frontTopRight.Light + frontRight.Light) / 4;       // Top Left
+            int c1 = front.Light, c2 = front.Light, c3 = front.Light, c4 = front.Light;
+            //int c1 = (front.Light + frontBottom.Light + frontBottomRight.Light + frontRight.Light) / 4; // Bottom Left
+            //int c2 = (front.Light + frontBottom.Light + frontBottomLeft.Light + frontLeft.Light) / 4;   // Bottom Right
+            //int c3 = (front.Light + frontTop.Light + frontTopLeft.Light + frontLeft.Light) / 4;         // Top Right
+            //int c4 = (front.Light + frontTop.Light + frontTopRight.Light + frontRight.Light) / 4;       // Top Left
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -222,13 +212,7 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
 
             // Get neighbours
-            Block block = chunk[x, y, z];
-            Block top = chunk[x, y + 1, z];
-            Block bottom = chunk[x, y - 1, z];
-            Block front = chunk[x, y, z + 1];
-            Block back = chunk[x, y, z - 1];
             Block left = chunk[x + 1, y, z];
-            Block right = chunk[x - 1, y, z];
 
             Block leftTop = chunk[x + 1, y + 1, z];
             Block leftBottom = chunk[x + 1, y - 1, z];
@@ -242,10 +226,11 @@ namespace Assets.Rendering
             Block frontBottomLeft = chunk[x + 1, y - 1, z + 1];
             Block backBottomLeft = chunk[x + 1, y - 1, z - 1];
 
-            int c1 = (left.Light + leftBottom.Light + backBottomLeft.Light + backLeft.Light) / 4;   // Bottom Left
-            int c2 = (left.Light + leftTop.Light + backTopLeft.Light + backLeft.Light) / 4;         // Top Left
-            int c3 = (left.Light + leftTop.Light + frontTopLeft.Light + frontLeft.Light) / 4;       // Top Right
-            int c4 = (left.Light + leftBottom.Light + frontBottomLeft.Light + frontLeft.Light) / 4; // Bottom Right
+            int c1 = left.Light, c2 = left.Light, c3 = left.Light, c4 = left.Light;
+            //int c1 = (left.Light + leftBottom.Light + backBottomLeft.Light + backLeft.Light) / 4;   // Bottom Left
+            //int c2 = (left.Light + leftTop.Light + backTopLeft.Light + backLeft.Light) / 4;         // Top Left
+            //int c3 = (left.Light + leftTop.Light + frontTopLeft.Light + frontLeft.Light) / 4;       // Top Right
+            //int c4 = (left.Light + leftBottom.Light + frontBottomLeft.Light + frontLeft.Light) / 4; // Bottom Right
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -269,13 +254,7 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
 
             // Get neighbours
-            Block block = chunk[x, y, z];
-            Block top = chunk[x, y + 1, z];
-            Block bottom = chunk[x, y - 1, z];
-            Block front = chunk[x, y, z + 1];
             Block back = chunk[x, y, z - 1];
-            Block left = chunk[x + 1, y, z];
-            Block right = chunk[x - 1, y, z];
 
             Block backTop = chunk[x, y + 1, z - 1];
             Block backBottom = chunk[x, y - 1, z - 1];
@@ -289,10 +268,11 @@ namespace Assets.Rendering
             Block backBottomLeft = chunk[x + 1, y - 1, z - 1];
             Block backBottomRight = chunk[x - 1, y - 1, z - 1];
 
-            int c1 = (back.Light + backBottom.Light + backBottomRight.Light + backRight.Light) / 4; // Bottom Left
-            int c2 = (back.Light + backTop.Light + backTopRight.Light + backRight.Light) / 4;       // Top Left
-            int c3 = (back.Light + backTop.Light + backTopLeft.Light + backLeft.Light) / 4;         // Top Right
-            int c4 = (back.Light + backBottom.Light + backBottomLeft.Light + backLeft.Light) / 4;   // Bottom Right
+            int c1 = back.Light, c2 = back.Light, c3 = back.Light, c4 = back.Light;
+            //int c1 = (back.Light + backBottom.Light + backBottomRight.Light + backRight.Light) / 4; // Bottom Left
+            //int c2 = (back.Light + backTop.Light + backTopRight.Light + backRight.Light) / 4;       // Top Left
+            //int c3 = (back.Light + backTop.Light + backTopLeft.Light + backLeft.Light) / 4;         // Top Right
+            //int c4 = (back.Light + backBottom.Light + backBottomLeft.Light + backLeft.Light) / 4;   // Bottom Right
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -316,12 +296,6 @@ namespace Assets.Rendering
             meshData.AddQuadTriangles();
 
             // Get neighbours
-            Block block = chunk[x, y, z];
-            Block top = chunk[x, y + 1, z];
-            Block bottom = chunk[x, y - 1, z];
-            Block front = chunk[x, y, z + 1];
-            Block back = chunk[x, y, z - 1];
-            Block left = chunk[x + 1, y, z];
             Block right = chunk[x - 1, y, z];
 
             Block rightTop = chunk[x - 1, y + 1, z];
@@ -336,10 +310,11 @@ namespace Assets.Rendering
             Block frontBottomRight = chunk[x - 1, y - 1, z + 1];
             Block backBottomRight = chunk[x - 1, y - 1, z - 1];
 
-            int c1 = (right.Light + rightBottom.Light + frontBottomRight.Light + frontRight.Light) / 4; // Bottom Left
-            int c2 = (right.Light + rightTop.Light + frontTopRight.Light + frontRight.Light) / 4;       // Top Left
-            int c3 = (right.Light + rightTop.Light + backTopRight.Light + backRight.Light) / 4;         // Top Right
-            int c4 = (right.Light + rightBottom.Light + backBottomRight.Light + backRight.Light) / 4;   // Bottom Right
+            int c1 = right.Light, c2 = right.Light, c3 = right.Light, c4 = right.Light;
+            //int c1 = (right.Light + rightBottom.Light + frontBottomRight.Light + frontRight.Light) / 4; // Bottom Left
+            //int c2 = (right.Light + rightTop.Light + frontTopRight.Light + frontRight.Light) / 4;       // Top Left
+            //int c3 = (right.Light + rightTop.Light + backTopRight.Light + backRight.Light) / 4;         // Top Right
+            //int c4 = (right.Light + rightBottom.Light + backBottomRight.Light + backRight.Light) / 4;   // Bottom Right
 
             byte c1Byte = (byte)c1;
             byte c2Byte = (byte)c2;
@@ -352,6 +327,80 @@ namespace Assets.Rendering
             meshData.colors.Add(new Color32(c4Byte, c4Byte, c4Byte, 0));
 
             return meshData;
+        }
+
+        // Spread the block's light for a given area
+        public static void LightningFloodArea(World world, WorldPos worldPos, int worldVisibleSizeY)
+        {
+            _lightningBlocks.Clear();
+
+            int xMin = worldPos.X - 5;
+            int xMax = worldPos.X + 5;
+            int zMin = worldPos.Z - 5;
+            int zMax = worldPos.Z + 5;
+            int yMin = worldVisibleSizeY - 1;
+
+            for (int x = xMin; x < xMax; x++)
+            {
+                for (int z = zMin; z < zMax; z++)
+                {
+                    for (int y = yMin; y >= 0; y--)
+                    {
+                        Block block = world[x, y, z];
+                        if (block != null)
+                            LightningFlood(world, x, y, z, block.Light, block);
+                    }
+                }
+            }
+        }
+
+        private static void LightningFlood(World world, int x, int y, int z, int light, Block firstStepBlock = null)
+        {
+            Block block = world[x, y, z];
+            if (firstStepBlock != null)
+            {
+                block = firstStepBlock;
+            }
+            else
+            {
+                block = world[x, y, z];
+            }
+
+            if (block == null || block.IsSolid())
+                return;
+
+            int blockLight = block.Light;
+
+            // Skip decay if it's the first flood iteration
+            if (firstStepBlock == null)
+            {
+                // Light Decay 
+                // Note: if you want to create more lightning steps, increase the value bellow,
+                // but remember to increase the number of affected neighbours on UpdateHeightMap (ln 267) and LightningFloodArea (ln 319)
+                light -= Block.MinLight;
+
+                if (light <= Block.MinLight)
+                {
+                    return;
+                }
+
+                if (blockLight >= light)
+                {
+                    return;
+                }
+
+                block.Light = light;
+                _lightningBlocks.Add(new Vector3(x, y, z));
+            }
+
+            // Note: there is more optimized ways to do that. But I think that the recursive function
+            // is the easiest way to understand the light flood concept
+            LightningFlood(world, x, y + 1, z, light);
+            LightningFlood(world, x, y - 1, z, blockLight);
+            LightningFlood(world, x, y, z + 1, light);
+            LightningFlood(world, x, y, z - 1, light);
+            LightningFlood(world, x + 1, y, z, light);
+            LightningFlood(world, x - 1, y, z, light);
         }
     }
 }

@@ -32,14 +32,19 @@ namespace Assets.TerrainGen
             height += GetNoise(x, 0, z, Scale, MaxHeight);
             for (var y = chunk.WorldPos.Y; y < chunk.WorldPos.Y + Chunk.ChunkSize; y++)
             {
-                if (y <= height)
+                if (y == height)
+                {
+                    chunk.SetBlock<Block>(x - chunk.WorldPos.X, y - chunk.WorldPos.Y, z - chunk.WorldPos.Z);
+                    chunk[x - chunk.WorldPos.X, y - chunk.WorldPos.Y, z - chunk.WorldPos.Z].Light = Block.MaxLight;
+                }
+                else if (y < height)
                 {
                     chunk.SetBlock<Block>(x - chunk.WorldPos.X, y - chunk.WorldPos.Y, z - chunk.WorldPos.Z);
                 }
-
                 else
                 {
                     chunk.SetBlock<BlockAir>(x - chunk.WorldPos.X, y - chunk.WorldPos.Y, z - chunk.WorldPos.Z);
+                    chunk[x - chunk.WorldPos.X, y - chunk.WorldPos.Y, z - chunk.WorldPos.Z].Light = Block.MaxLight;
                 }
             }
         }
