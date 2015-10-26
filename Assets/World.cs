@@ -35,7 +35,16 @@ namespace Assets
 
         public Chunk GetChunk(WorldPos worldPos)
         {
-            return _chunks[worldPos];
+            float multiple = Chunk.ChunkSize;
+            var chunkWorldPos = new WorldPos(
+                Mathf.FloorToInt(worldPos.X / multiple) * Chunk.ChunkSize,
+                Mathf.FloorToInt(worldPos.Y / multiple) * Chunk.ChunkSize,
+                Mathf.FloorToInt(worldPos.Z / multiple) * Chunk.ChunkSize);
+
+            Chunk chunk;
+            _chunks.TryGetValue(chunkWorldPos, out chunk);
+
+            return chunk;
         }
 
         public Block GetBlock(WorldPos worldPos)
@@ -43,11 +52,14 @@ namespace Assets
             if (worldPos.X < 0 || worldPos.Y < 0 || worldPos.Z < 0)
                 return new BlockAir();
 
-            if (worldPos.X > 16*16 || worldPos.Y > 16 * 16 || worldPos.Z > 16 * 16)
-                return new BlockAir();
-
             var chunk = GetChunk(worldPos);
-            return chunk.GetBlock(worldPos.X - Chunk.ChunkSize, worldPos.Y - Chunk.ChunkSize, worldPos.Z - Chunk.ChunkSize);
+            if (chunk != null)
+            {
+                return chunk.GetBlock(worldPos.X - chunk.WorldPos.X, worldPos.Y - chunk.WorldPos.Y,
+                    worldPos.Z - chunk.WorldPos.Z);
+            }
+
+            return new BlockAir();
         }
 
         public Block this[int x, int y, int z]

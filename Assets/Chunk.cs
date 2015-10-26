@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Assets.Blocks;
 using Assets.Rendering;
 using UnityEngine;
@@ -60,7 +61,15 @@ namespace Assets
             if (!InRange(x) || !InRange(y) || !InRange(z))
                 return World.GetBlock(new WorldPos(WorldPos.X + x, WorldPos.X + y, WorldPos.X + z));
 
-            return _blocks[x, y, z];
+            try
+            {
+                return _blocks[x, y, z];
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public Block this[int x, int y, int z]
