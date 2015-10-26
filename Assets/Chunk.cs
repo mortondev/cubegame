@@ -61,15 +61,7 @@ namespace Assets
             if (!InRange(x) || !InRange(y) || !InRange(z))
                 return World.GetBlock(new WorldPos(WorldPos.X + x, WorldPos.X + y, WorldPos.X + z));
 
-            try
-            {
-                return _blocks[x, y, z];
-
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return _blocks[x, y, z];
         }
 
         public Block this[int x, int y, int z]
@@ -79,7 +71,7 @@ namespace Assets
 
         public void SetBlock<T>(int x, int y, int z) where T : Block, new()
         {
-            _blocks[x, y, z] = new T {_chunk = this};
+            _blocks[x, y, z] = new T { _chunk = this };
 
             _update = true;
         }
